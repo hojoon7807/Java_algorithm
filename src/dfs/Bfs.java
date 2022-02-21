@@ -20,13 +20,19 @@ public class Bfs {
         while (!queue.isEmpty()){
             int x = queue.remove();
             System.out.print(x+" ");
-            for (int i = 0; i < graph.get(x).size(); i++) {
-                int y = graph.get(x).get(i);
-                if (!isVisited[y]) {
-                    queue.add(y);
-                    isVisited[y] = true;
+            for (Integer i : graph.get(x)) {
+                if(!isVisited[i]){
+                    queue.add(i);
+                    isVisited[i] = true;
                 }
             }
+//            for (int i = 0; i < graph.get(x).size(); i++) {
+//                int y = graph.get(x).get(i);
+//                if (!isVisited[y]) {
+//                    queue.add(y);
+//                    isVisited[y] = true;
+//                }
+//            }
         }
     }
 
