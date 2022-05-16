@@ -9,8 +9,8 @@ public class marathon {
     public static void main(String[] args) throws IOException {
         String[] completion = {"eden", "kiki"};
         String[] participant = {"leo", "kiki", "eden"};
-
         System.out.println(solution(participant, completion));
+
     }
 
     public static String solution(String[] participant, String[] completion) {
