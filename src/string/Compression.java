@@ -8,28 +8,21 @@ public class Compression {
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     String string = br.readLine();
+    solution(string);
+  }
+
+  public static void solution(String s) {
+    s += " ";
     String answer = "";
     int count = 1;
 
-    for (int i = 0; i < string.length(); i++) {
-      if (i == 0) {
-        answer += string.charAt(i);
-      }else if(string.charAt(i-1) == string.charAt(i)){
-        count ++;
-      }else {
-        if (count == 1){
-          answer += string.charAt(i);
-        }else{
-          answer += count;
-          count = 1;
-          answer += string.charAt(i);
-        }
-
+    for (int i = 0; i < s.length() - 1; i++) {
+      if(s.charAt(i) == s.charAt(i+1)) count ++;
+      else{
+        answer += s.charAt(i);
+        if(count > 1) answer += count;
+        count = 1;
       }
-    }
-
-    if(count != 1){
-      answer += count;
     }
 
     System.out.println(answer);
