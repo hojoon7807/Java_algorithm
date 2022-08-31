@@ -64,10 +64,6 @@ public class B14889 {
     }
     int val = Math.abs(start - link);
 
-    if (val == 0) {
-      System.out.println(val);
-    }
-
     min = Math.min(val, min);
   }
 
