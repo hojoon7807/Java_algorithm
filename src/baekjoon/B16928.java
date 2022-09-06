@@ -35,53 +35,30 @@ public class B16928 {
 
   static void bfs() {
     LinkedList<Integer> queue = new LinkedList<>();
-
     queue.add(1);
-    isVisited[1] = true;
 
     while (!queue.isEmpty()) {
       int recent = queue.remove();
 
-      if (recent == 100) {
-        System.out.println(count[recent]);
-        return;
-      }
-
       for (int j = 1; j < 7; j++) {
         int next = recent + j;
-        if (next > 100) {
-          continue;
+
+        if (next == 100) {
+          System.out.println(count[recent] + 1);
+          return;
         }
 
-        if (isVisited[next]) {
-          continue;
-        }
-        isVisited[next] = true;
-
-
-        if (map[next] != 0) {
-          if (!isVisited[map[next]]) {
-            isVisited[map[next]] = true;
+        if (next < 101 && count[next] == 0) {
+          if (map[next] != 0 && count[map[next]] == 0) {
             queue.add(map[next]);
             count[map[next]] = count[recent] + 1;
-            continue;
+          } else if(map[next] == 0){
+            count[next] = count[recent] + 1;
+            queue.add(next);
           }
         }
-
-
-        count[next] = count[recent] + 1;
-        queue.add(next);
       }
     }
   }
 
-  static class Node{
-    int x;
-    int count;
-
-    public Node(int x, int count) {
-      this.x = x;
-      this.count = count;
-    }
-  }
 }
