@@ -50,15 +50,11 @@ public class B14502 {
 
   static void bfs() {
     LinkedList<Node> q = new LinkedList<>();
-    int[][] resultMap = new int[n][m];
 
-    for (int i = 0; i < n; i++) {
-      resultMap[i] = map[i].clone();
-    }
 
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        if (resultMap[i][j] == 2) {
+        if (map[i][j] == 2) {
           q.add(new Node(i, j));
         }
       }
@@ -71,23 +67,27 @@ public class B14502 {
         int ny = now.y + dy[i];
 
         if (nx >= 0 && ny >= 0 && nx < n && ny < m) {
-          if (resultMap[nx][ny] == 0) {
-            resultMap[nx][ny] = 2;
+          if (map[nx][ny] == 0) {
+            map[nx][ny] = 3;
             q.add(new Node(nx, ny));
           }
         }
       }
     }
-    cal(resultMap);
+    cal();
   }
 
-  static void cal(int[][] result) {
+  static void cal() {
     int count = 0;
 
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        if (result[i][j] == 0) {
+        if (map[i][j] == 0) {
           count++;
+        }
+
+        else if (map[i][j] == 3) {
+          map[i][j] = 0;
         }
       }
     }
