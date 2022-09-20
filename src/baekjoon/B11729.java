@@ -10,12 +10,12 @@ public class B11729 {
   public static void main(String[] args) throws IOException {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int N = Integer.parseInt(br.readLine());
-    hanoi(N,1,3,2);
+    hanoi(N,1,3);
     System.out.println(K);
     System.out.println(sb.toString());
   }
 
-  static void hanoi(int n,int start, int end, int axis) {
+  static void hanoi(int n,int start, int end) {
     K ++;
     if (n == 1) {
       sb.append(start + " " + end + "\n");
@@ -23,10 +23,10 @@ public class B11729 {
       return;
     }
 
-    hanoi(n - 1, start, axis, end);
+    hanoi(n - 1, start, 6-(start+end));
     sb.append(start + " " + end + "\n");
 //    System.out.println(start + " " + end);
-    hanoi(n - 1, axis, end, start);
+    hanoi(n - 1, 6-(start+end), end);
   }
 
 }
