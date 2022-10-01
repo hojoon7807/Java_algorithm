@@ -10,7 +10,7 @@ public class B1939 {
   static boolean[] isVisited;
   static ArrayList<ArrayList<int[]>> list = new ArrayList<>();
   public static void main(String[] args) throws IOException {
-      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     String[] NM = br.readLine().split(" ");
     int N = Integer.parseInt(NM[0]);
     int M = Integer.parseInt(NM[1]);
