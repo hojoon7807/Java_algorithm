@@ -31,7 +31,7 @@ public class B16937 {
 
     for (int i = 0; i < N - 1; i++) {
       Sticker first = stickers[i];
-      for (int j = i+1; j < N; j++) {
+      for (int j = i + 1; j < N; j++) {
         Sticker second = stickers[j];
 
         // 회전 x
@@ -102,7 +102,6 @@ public class B16937 {
 //      }
 //    }
 
-  }
 
   static class Sticker {
 
