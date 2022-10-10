@@ -8,6 +8,7 @@ public class B15684 {
   static int n,m,h;
   static int[][] arr;
   static boolean flag;
+  static int answer;
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     String[] nmh = br.readLine().split(" ");
@@ -27,17 +28,16 @@ public class B15684 {
     }
 
     for (int i = 0; i <= 3; i++) {
-      dfs(0, i);
+      dfs(0, i, 1);
       if (flag) {
         System.out.println(i);
         return;
       }
     }
-
     System.out.println(-1);
   }
 
-  static void dfs(int depth, int count) {
+  static void dfs(int depth, int count, int row) {
     if (flag) {
       return;
     }
@@ -47,12 +47,12 @@ public class B15684 {
       }
       return;
     }
-    for (int i = 1; i <= h; i++) {
+    for (int i = row; i <= h; i++) {
       for (int j = 1; j < n; j++) {
         if (arr[i][j] == 0 && arr[i][j + 1] == 0) {
           arr[i][j] = 1;
           arr[i][j + 1] = 2;
-          dfs(depth+1, count);
+          dfs(depth+1, count, i);
           arr[i][j] = 0;
           arr[i][j + 1] = 0;
         }
