@@ -16,6 +16,7 @@ public class B17609 {
     }
 
 
+
   }
 
   static int check(int count, int left, int right){
