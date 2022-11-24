@@ -58,7 +58,7 @@ public class B20055 {
 
       //step 3
       Belt upBelt = container.get(0);
-      if (!upBelt.robot && upBelt.durability > 0) {
+      if (upBelt.durability > 0) {
         upBelt.robot = true;
         upBelt.durability--;
         if (upBelt.durability == 0) {

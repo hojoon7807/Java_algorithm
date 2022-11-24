@@ -16,13 +16,12 @@ public class B17626 {
 
     for (int i = 2; i <= N; i++) {
       int min = Integer.MAX_VALUE;
-      for (int j = 1; j*j <=i ; j++) {
-          min = Math.min(min, dp[i - j * j] + 1);
+      for (int j = 1; j * j <= i; j++) {
+        min = Math.min(min, dp[i - j * j] + 1);
       }
-     dp[i] = min;
+      dp[i] = min;
     }
 
     System.out.println(dp[N]);
   }
-
 }
