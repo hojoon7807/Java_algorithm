@@ -24,23 +24,17 @@ public class B1234 {
     System.out.println(solve(N, R, G, B));
 
   }
-
-  // return dp[N][R][G][B]
   static long solve(int n, int r, int g, int b) {
 
     if (r < 0 || g < 0 || b < 0) return 0;
     if (n <= 0) return 1;
 
-    // Memoization
     if (dp[n][r][g][b] != 0) return dp[n][r][g][b];
 
-    // 레벨 N에서, 3가지 경우 탐색
-    // 1가지 색만 쓰는 경우
     dp[n][r][g][b] += solve(n - 1, r - n, g, b);
     dp[n][r][g][b] += solve(n - 1, r, g - n, b);
     dp[n][r][g][b] += solve(n - 1, r, g, b - n);
 
-    // 2가지 색만 쓰는 경우
     if (n % 2 == 0) {
 
       int piece = n / 2;
@@ -51,7 +45,6 @@ public class B1234 {
       dp[n][r][g][b] += combination * solve(n - 1, r - piece, g, b - piece);
     }
 
-    // 3가지 색만 쓰는 경우
     if (n % 3 == 0) {
 
       int piece = n / 3;
@@ -65,7 +58,6 @@ public class B1234 {
 
   static long getCombination(int n, int piece, int k) {
 
-    // memoization
     if (dp_combination[n][piece] != 0) return dp_combination[n][piece];
 
     long ret = 1L;
