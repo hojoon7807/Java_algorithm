@@ -38,11 +38,6 @@ public class 등산코스정하기 {
 
     for(int i=0;i< paths.length;i++){
       int s = paths[i][0]; int e = paths[i][1]; int w=paths[i][2];
-      /**
-       * 출발지일경우에는 단방향으로 설정
-       * 산봉우리일경우에도 단방향으로 설정
-       * 그외는 양방향 설정
-       */
       if(LGates.contains(s) || LSummits.contains(e)) {
         graph.get(s).add(new Node(e,w));
       }else if(LGates.contains(e) || LSummits.contains(s)){
@@ -52,7 +47,6 @@ public class 등산코스정하기 {
         graph.get(e).add(new Node(s,w));
       }
     }
-    dijkstra(gates);
 
     //정답 고르기
     int[] answer = new int[2];
@@ -79,10 +73,6 @@ public class 등산코스정하기 {
 
     while (!queue.isEmpty()) {
       Node pNode = queue.poll();
-      /**
-       * 조기 가지치기를 위해서
-       * 여러개의 출발지를 같이 넣고 다익스트라를 실행시키기 때문에 동시에 특정 노드로 가는 intensity 값을 서로 변경시키기때문에
-       */
       if(pNode.w > intensity[pNode.e])
         continue;
 
