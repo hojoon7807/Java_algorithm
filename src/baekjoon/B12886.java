@@ -64,7 +64,6 @@ public class B12886 {
       }
     }
     System.out.println(0);
-
   }
 
 }
