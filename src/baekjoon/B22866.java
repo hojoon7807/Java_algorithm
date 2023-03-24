@@ -3,7 +3,6 @@ package baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
 import java.util.Stack;
 
 public class B22866 {
@@ -20,13 +19,9 @@ public class B22866 {
       heights[i] = Integer.parseInt(split[i]);
     }
 
-    int maxHeight = heights[0];
-
     int[][] count = new int[N][2];
 
     StringBuilder sb = new StringBuilder();
-
-    LinkedList<Building> queue = new LinkedList<>();
     Stack<Building> stack = new Stack<>();
 
 
