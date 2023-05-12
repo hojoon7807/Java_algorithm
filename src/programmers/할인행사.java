@@ -6,9 +6,9 @@ import java.util.HashMap;
 public class 할인행사 {
 
   public static void main(String[] args) throws IOException {
-    solution(new String[]{"banana", "apple", "rice", "pork", "pot"}, new int[]{3, 2, 2, 2, 1},
-        new String[]{"chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana",
-            "pork", "rice", "pot", "banana", "apple", "banana"});
+    solution(new String[]{"banana", "pot"}, new int[]{3, 1},
+        new String[]{"banana", "pot", "pot", "pot", "pot", "pot", "pot", "pot", "banana", "banana",
+            "pot", "pot", "pot", "pot", "pot", "pot", "pot", "banana"});
   }
 
   public static int solution(String[] want, int[] number, String[] discount) {
@@ -27,10 +27,11 @@ public class 할인행사 {
         }
       }
       if (flag) {
-        answer ++;
+        answer++;
       }
     }
 
+    System.out.println(answer);
     return answer;
   }
 
