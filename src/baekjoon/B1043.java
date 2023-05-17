@@ -42,7 +42,7 @@ public class B1043 {
     knownPeople = new int[knownTrue];
 
     for (int i = 0; i < knownTrue; i++) {
-      knownPeople[i] = Integer.parseInt(input[i]);
+      knownPeople[i] = Integer.parseInt(input[i+1]);
     }
 
     for (int i = 0; i < M; i++) {
@@ -53,10 +53,10 @@ public class B1043 {
       for (int j = 0; j < partyPeople; j++) {
         if (j > 0) {
           prev = recent;
-          recent = Integer.parseInt(input[j]);
+          recent = Integer.parseInt(input[j+1]);
           union(prev, recent);
         } else {
-          recent = Integer.parseInt(input[j]);
+          recent = Integer.parseInt(input[j+1]);
         }
         parties.get(i).add(recent);
       }
