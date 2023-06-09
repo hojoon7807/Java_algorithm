@@ -2,56 +2,48 @@ package programmers;
 
 public class 공원산책 {
 
-  public static void main(String[] args) {
-
-  }
+  static int[] dr = {-1, 1, 0, 0};
+  static int[] dc = {0, 0, -1, 1};
 
   public int[] solution(String[] park, String[] routes) {
-    int[] answer = {0,0};
+    int[] answer = {0, 0};
     int h = park.length;
     int w = park[0].length();
-    for(int i=0; i< park.length; i++){
-      for(int j=0; j<park[0].length(); j++){
-        if(park[i].charAt(j) == 'S'){
-          answer = new int[]{i,j};
+    for (int i = 0; i < park.length; i++) {
+      for (int j = 0; j < park[0].length(); j++) {
+        if (park[i].charAt(j) == 'S') {
+          answer = new int[]{i, j};
         }
       }
     }
 
-    for(String route:routes){
+    for (String route : routes) {
       char direct = route.charAt(0);
       int move = route.charAt(2) - '0';
 
-      int[] next = switch(direct) {
-        case 'N' -> new int[]{answer[0] - move, answer[1]};
-        case 'S' -> new int[]{answer[0] + move, answer[1]};
-        case 'W' -> new int[]{answer[0], answer[1] - move};
-        case 'E' -> new int[]{answer[0], answer[1] + move};
-        default -> new int[]{};
+      int next = switch (direct) {
+        case 'N' -> 0;
+        case 'S' -> 1;
+        case 'W' -> 2;
+        case 'E' -> 3;
+        default -> 4;
       };
 
-      if(next[0] >= 0 && next[0] < h && next[1] >=0 && next[1] < w) {
-        boolean flag = false;
-        for(int i=answer[0]; i<=next[0]; i++){
-          if(park[i].charAt(answer[1]) == 'X') {
-            flag = true;
-            break;
-          }
-        }
-
-        for(int j=answer[1]; j<=next[1]; j++){
-          if(park[answer[0]].charAt(j) == 'X') {
-            flag = true;
-            break;
-          }
-        }
-
-        if(!flag) {
-          answer = next;
+      boolean flag = false;
+      for (int i = 1; i <= move; i++) {
+        int nr = answer[0] + dr[next] * i;
+        int nc = answer[1] + dc[next] * i;
+        if (nr < 0 || nr >= h || nc < 0 || nc >= w || park[nr].charAt(nc) == 'X') {
+          flag = true;
+          break;
         }
       }
 
+      if (!flag) {
+        answer = new int[]{answer[0] + dr[next] * move, answer[1] + dc[next] * move};
+      }
     }
+
     return answer;
   }
 }
