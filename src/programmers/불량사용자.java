@@ -12,8 +12,6 @@ public class 불량사용자 {
   }
 
   public static int solution(String[] user_id, String[] banned_id) {
-    int answer = 0;
-
     String[][] replaceBannedId = Arrays.stream(banned_id)
         .map(banned -> banned.replace("*", "."))
         .map(banned -> Arrays.stream(user_id)
@@ -25,7 +23,7 @@ public class 불량사용자 {
 
     combine(0, replaceBannedId, new HashSet(), set);
 
-    return answer;
+    return set.size();
   }
 
   static void combine(int idx, String[][] bans, Set<String> banned, Set<Set<String>> bannedSet) {
