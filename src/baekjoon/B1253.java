@@ -9,23 +9,16 @@ public class B1253 {
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    int N = Integer.parseInt(br.readLine());
+    int n = Integer.parseInt(br.readLine());
 
-    int[] nums = new int[N];
-
-    String[] split = br.readLine().split(" ");
-
-    for (int i = 0; i < N; i++) {
-      nums[i] = Integer.parseInt(split[i]);
-    }
-    Arrays.sort(nums);
+    int[] arr = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+    Arrays.sort(arr);
 
     int count = 0;
-    for (int i = 0; i < N; i++) {
-      int tmp = nums[i];
+    for (int i = 0; i < n; i++) {
+      int pin = arr[i];
       int start = 0;
-      int end = N - 1;
-
+      int end = n - 1;
       while (start < end) {
         if (start == i) {
           start++;
@@ -34,14 +27,17 @@ public class B1253 {
           end--;
           continue;
         }
-        int sum = nums[start] + nums[end];
 
-        if (sum == tmp) {
+        int sum = arr[start] + arr[end];
+
+        if (pin == sum) {
           count++;
           break;
-        } else if (sum > tmp) {
+        }
+
+        if (sum > pin) {
           end--;
-        } else if (sum < tmp) {
+        } else {
           start++;
         }
       }
