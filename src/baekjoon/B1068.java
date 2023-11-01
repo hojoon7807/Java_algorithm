@@ -1,60 +1,68 @@
 package baekjoon;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class B1068 {
 
-  static ArrayList<Integer>[] tree;
-  static boolean[] visited;
-  static int answer = 0;
-  static int deleteNode = 0;
+  static ArrayList<Integer>[] child;
+  static int[] leaf;
+  static int root;
 
-  public static void main(String[] args) {
+  static int deleteNode;
+  static int n;
+  public static void main(String[] args) throws IOException {
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    n = Integer.parseInt(br.readLine());
 
-    Scanner sc = new Scanner(System.in);
-    int N = sc.nextInt();
+    child = new ArrayList[n];
 
-    tree = new ArrayList[N];
-
-    visited = new boolean[N];
-
-    int root = 0;
-
-    for (int i = 0; i < N; i++) {
-      tree[i] = new ArrayList<Integer>();
+    for (int i = 0; i < n; i++) {
+      child[i] = new ArrayList<>();
     }
-
-    for (int i = 0; i < N; i++) {
-      int p = sc.nextInt();
-      if (p != -1) {
-        tree[i].add(p);
-        tree[p].add(i);
+    leaf = new int[n];
+    String[] input = br.readLine().split(" ");
+    for (int i = 0; i < n; i++) {
+      int parent = Integer.parseInt(input[i]);
+      if (parent == -1) {
+        root = i;
       } else {
-        root = 1;
+        child[parent].add(i);
       }
     }
-    deleteNode = sc.nextInt();
-    if (deleteNode == root) {
-      System.out.println(0);
-    } else {
-      dfs(root);
-      System.out.println(answer);
+
+    deleteNode = Integer.parseInt(br.readLine());
+    disconnect();
+
+    if (root != deleteNode) {
+      dfs(root, -1);
+    }
+
+    System.out.println(leaf[root]);
+  }
+
+  private static void disconnect(){
+    for (int i = 0; i < n; i++) {
+      if (child[i].contains(deleteNode)) {
+        child[i].remove(child[i].indexOf(deleteNode));
+      }
     }
   }
 
-  private static void dfs(int number) {
-
-    visited[number] = true;
-    int cNode = 0;
-    for (int i : tree[number]) {
-      if (visited[1] == false && i != deleteNode) {
-        cNode++;
-        dfs(1);
-      }
+  private static void dfs(int node, int parent) {
+    if (child[node].isEmpty()) {
+      leaf[node] ++;
     }
-    if (cNode == 0) {
-      answer++;
+
+    for (Integer child : child[node]) {
+//      if (child == parent) {
+//        continue;
+//      }
+
+      dfs(child, node);
+      leaf[node] += leaf[child];
     }
   }
 }
