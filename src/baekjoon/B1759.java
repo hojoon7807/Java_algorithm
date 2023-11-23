@@ -10,51 +10,56 @@ public class B1759 {
 
   static int l,c;
   static String[] arr;
-
+  static Set<String> set = Set.of("a", "e", "i", "o", "u");
   static StringBuilder sb = new StringBuilder();
-
-  static Set<Character> aeiou = Set.of('a','e','i','o','u');
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     String[] lc = br.readLine().split(" ");
     l = Integer.parseInt(lc[0]);
-    c = Integer.parseInt(lc[1]);
+    c= Integer.parseInt(lc[1]);
 
     arr = br.readLine().split(" ");
+
     Arrays.sort(arr);
 
-    bf(0, "", 0);
+    dfs(0, new String[l], 0);
 
     System.out.println(sb);
-
   }
 
-  public static void bf(int depth, String code, int index) {
+  static void dfs(int depth, String[] password, int index) {
     if (depth == l) {
-      if (isValid(code)) {
-        sb.append(code).append("\n");
+      if (isValid(password)) {
+        String joinPassword = String.join("", password);
+        sb.append(joinPassword).append("\n");
       }
       return;
     }
 
     for (int i = index; i < c; i++) {
-      bf(depth + 1, code + arr[i], i + 1);
+      password[depth] = arr[i];
+      dfs(depth + 1, password, i + 1);
     }
   }
 
-  public static boolean isValid(String code) {
-    int count = 0;
+  static boolean isValid(String[] password) {
+    int vCount = 0;
+    int cCount = 0;
+
     for (int i = 0; i < l; i++) {
-      if (aeiou.contains(code.charAt(i))) {
-        count ++;
+      if (set.contains(password[i])) {
+        vCount ++;
+      } else {
+        cCount ++;
       }
     }
 
-    if (count >= 1 && count <= l - 2) {
+    if (vCount >= 1 && cCount >= 2) {
       return true;
     }
+
     return false;
   }
 
