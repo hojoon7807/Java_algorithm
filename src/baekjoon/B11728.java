@@ -3,57 +3,69 @@ package baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class B11728 {
 
-  static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-  static StringBuilder sb = new StringBuilder();
-
-  static String str;
-  static int[] Dy;
-  static int N, MOD = 1000000;
-
-  static boolean check(char A, char B) {  // 'AB' 라는 두 자리 숫자가 하나의 수로 해독이 가능한가?
-    if (A == '0') {
-      return false;
-    }
-    if (A == '1') {
-      return true;
-    }
-    if (A >= '3') {
-      return false;
-    }
-    return B <= '6';
-  }
-
-  static void pro() {
-    Dy = new int[N];
-
-    if (str.charAt(0) != '0') {
-      Dy[0] = 1;
-    }
-
-    for (int i = 1; i < N; i++) {
-      if (str.charAt(i) != '0') {
-        Dy[i] = Dy[i - 1];
-      }
-      if (check(str.charAt(i - 1), str.charAt(i))) {
-        if (i >= 2) {
-          Dy[i] += Dy[i - 2];
-        } else {
-          Dy[i] += 1;
-        }
-        Dy[i] %= MOD;
-      }
-    }
-
-    System.out.println(Dy[N - 1]);
-  }
-
   public static void main(String[] args) throws IOException {
-    str = br.readLine();
-    N = str.length();
-    pro();
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+    String[] nm = br.readLine().split(" ");
+    int n = Integer.parseInt(nm[0]);
+    int m = Integer.parseInt(nm[1]);
+
+    int[] a = new int[n];
+    int[] b = new int[m];
+
+    String[] input = br.readLine().split(" ");
+
+    for (int i = 0; i < n; i++) {
+      a[i] = Integer.parseInt(input[i]);
+    }
+
+    input = br.readLine().split(" ");
+
+    for (int i = 0; i < m; i++) {
+      b[i] = Integer.parseInt(input[i]);
+    }
+
+    Arrays.sort(a);
+    Arrays.sort(b);
+
+    StringBuilder sb = new StringBuilder();
+
+    int aP = 0;
+    int bP = 0;
+
+    while (aP < n || bP < m) {
+      if (aP >= n) {
+        for (int i = bP; i < m; i++) {
+          sb.append(b[i]).append(" ");
+        }
+
+        break;
+      }
+
+      if (bP >= m) {
+        for (int i = aP; i < n; i++) {
+          sb.append(a[i]).append(" ");
+        }
+
+        break;
+      }
+      int aV = a[aP];
+      int bV = b[bP];
+
+      if (aV < bV) {
+        sb.append(aV).append(" ");
+        aP++;
+      } else {
+        sb.append(bV).append(" ");
+        bP++;
+      }
+    }
+
+    System.out.println(sb);
   }
 
 }
