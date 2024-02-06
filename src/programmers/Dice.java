@@ -67,6 +67,7 @@ public class Dice {
       selectDiceForSum(0, dice, new int[dice.length / 2], aList, a);
       selectDiceForSum(0, dice, new int[dice.length / 2], bList, b);
 
+      // 정렬
       Collections.sort(aList);
 
       // 이분 탐색 시작
