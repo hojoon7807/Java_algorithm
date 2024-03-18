@@ -1,74 +1,122 @@
 package programmers;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public class 주차요금계산 {
-  private static class Record{
-    int time;
-    String status;
+  static TreeMap<String, Car> map = new TreeMap<>();
+  static int defaultTime;
+  static int defaultCost;
+  static int unitTime;
+  static int unitCost;
 
-    public Record(int time, String status) {
-      this.time = time;
-      this.status = status;
-    }
-  }
-  public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  public static int[] solution(int[] fees, String[] records) {
+    defaultTime = fees[0];
+    defaultCost = fees[1];
+    unitTime = fees[2];
+    unitCost = fees[3];
 
-    int[] fees = new int[]{120, 0, 60, 591};
-    String[] records = new String[]{"16:00 3961 IN","16:00 0202 IN","18:00 3961 OUT","18:00 0202 OUT","23:58 3961 IN"};
+    // 출차 내역이 없으면 23:59
 
-    int endTime = 23 * 60 + 59;
+    // 기본시간 이하라면 기본요금
+    // 초과라면 기본요금 + 단위 시간(올림)
 
-    int[] answer;
-    TreeMap<Integer, Record> map = new TreeMap();
     for (String record : records) {
-      String[] info = record.split(" ");
-      String time = info[0];
-      String status = info[2];
-      int num = Integer.parseInt(info[1]);
+      String[] split = record.split(" ");
 
-      String[] timeSplit = time.split(":");
-      String hour = timeSplit[0];
-      String min = timeSplit[1];
+      String time = split[0];
+      String num = split[1];
+      String status = split[2];
 
-      int calTime = (Integer.parseInt(hour) * 60) + Integer.parseInt(min);
-
-      Record recent = map.get(num);
-      if (recent == null) {
-        map.put(num, new Record(calTime, status));
+      if (status.equals("IN")) {
+        // 이미 출차 기록이 있다면
+        if (map.containsKey(num)) {
+          Car car = map.get(num);
+          car.in(toTime(time));
+        } else {
+          // 처음 입차
+          map.put(num, new Car(num, toTime(time), false));
+        }
       } else {
-          recent.time = calTime - recent.time;
-          recent.status = status;
-
+        // 나간다면 누적시간 계산
+        Car car = map.get(num);
+        car.accumulateTime(toTime(time));
+        car.out();
       }
     }
 
-    answer = new int[map.size()];
-
+    int[] answer = new int[map.size()];
     int index = 0;
-    for (Record record : map.values()) {
-      int totalTime = record.time;
-      if (record.status.equals("IN")) {
-        totalTime = endTime - totalTime;
-      }
-      if (totalTime <= fees[0]) {
-        answer[index] = fees[1];
-      } else {
-        int remainTime = (totalTime - fees[0]) / fees[2];
+    for (Entry<String, Car> entry : map.entrySet()) {
+      Car car = entry.getValue();
+      car.calculateCost();
 
-        if ((totalTime - fees[0]) % fees[2] > 0) {
-          remainTime++;
-        }
-        answer[index] = fees[1] + remainTime * fees[3];
-      }
+      answer[index] = car.cost;
       index++;
     }
 
-    System.out.println(Arrays.toString(answer));
+    return answer;
+  }
+
+  static int toTime(String time) {
+    String[] split = time.split(":");
+    int hours = Integer.parseInt(split[0]);
+    int minutes = Integer.parseInt(split[1]);
+
+    return hours * 60 + minutes;
+  }
+
+  static class Car {
+
+    String num;
+    int inTime;
+    int accTime;
+    int cost;
+    boolean isOut;
+
+    public Car(String num, int inTime, boolean isOut) {
+      this.num = num;
+      this.inTime = inTime;
+      this.isOut = isOut;
+    }
+
+    void out() {
+      isOut = true;
+    }
+
+    void in(int time) {
+      inTime = time;
+      isOut = false;
+    }
+
+    void accumulateTime(int outTime) {
+      accTime += (outTime - inTime);
+    }
+
+
+    void calculateCost() {
+      if (!isOut) {
+        int maxTime = 23 * 60 + 59;
+        accTime += (maxTime - inTime);
+      }
+
+      // 기본 요금
+      if (accTime <= defaultTime) {
+        cost += defaultCost;
+      } else {
+        // 추가요금
+        cost += defaultCost;
+
+        accTime -= defaultTime;
+
+        int overCount = accTime / unitTime;
+
+        if (accTime % unitTime != 0) {
+          overCount++;
+        }
+
+        cost += overCount * unitCost;
+      }
+    }
   }
 }

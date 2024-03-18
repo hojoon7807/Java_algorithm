@@ -12,65 +12,77 @@ public class 거리두기확인하기 {
     int[] answer = new int[5];
 
     for (int i = 0; i < 5; i++) {
-      ArrayList<Point> points = new ArrayList();
-      LinkedList<Point> queue = new LinkedList();
       String[] place = places[i];
-      for (int j = 0; j < 5; j++) {
-        for (int k = 0; k < 5; k++) {
-          if (place[j].charAt(k) == 'P') {
-            points.add(new Point(j, k));
+      ArrayList<Location> applicants = new ArrayList<>();
+      for (int r = 0; r < 5; r++) {
+        for (int c = 0; c < 5; c++) {
+          if (place[r].charAt(c) == 'P') {
+            applicants.add(new Location(r, c));
           }
         }
       }
 
-      boolean flag = false;
+      boolean flag = true;
 
-      loop:
-      for (Point recent : points) {
-        boolean[][] isVisited = new boolean[5][5];
-        queue.add(recent);
-        isVisited[recent.row][recent.col] = true;
-
-        while (!queue.isEmpty()) {
-          Point current = queue.poll();
-
-          for (int d = 0; d < 4; d++) {
-            int nr = current.row + dr[d];
-            int nc = current.col + dc[d];
-
-            if (nr < 0 || nr >= 5 || nc < 0 || nc >= 5 || isVisited[nr][nc] ||
-                place[nr].charAt(nc) == 'X' ||
-                (Math.abs(recent.row - nr) + Math.abs(recent.col - nc)) > 2) {
-              continue;
-            }
-
-            if (place[nr].charAt(nc) == 'P') {
-              answer[i] = 0;
-              flag = true;
-              break loop;
-            }
-
-            queue.add(new Point(nr, nc));
-            isVisited[nr][nc] = true;
-          }
+      for (Location applicant : applicants) {
+        if (!isPossible(applicant, place)) {
+          flag = false;
+          break;
         }
       }
 
-      if (!flag) {
-        answer[i] = 1;
-      }
+      answer[i] = flag ? 1 : 0;
     }
     return answer;
   }
 
-  private static class Point {
+  boolean isPossible(Location base, String[] place) {
+    LinkedList<Location> q = new LinkedList<>();
+    boolean[][] isVisited = new boolean[5][5];
+    q.add(base);
+    isVisited[base.r][base.c] = true;
 
-    int row;
-    int col;
+    while (!q.isEmpty()) {
+      Location cur = q.poll();
 
-    public Point(int row, int col) {
-      this.row = row;
-      this.col = col;
+      for (int i = 0; i < 4; i++) {
+        int nr = cur.r + dr[i];
+        int nc = cur.c + dc[i];
+
+        if (nr < 0 || nr >= 5 || nc < 0 || nc >= 5) {
+          continue;
+        }
+
+        // 방문 or 벽
+        if (isVisited[nr][nc] || place[nr].charAt(nc) == 'X') {
+          continue;
+        }
+
+        int distance = Math.abs(nr - base.r) + Math.abs(nc - base.c);
+        if (distance > 2) {
+          continue;
+        }
+
+        if (place[nr].charAt(nc) == 'P') {
+          return false;
+        }
+
+        q.add(new Location(nr, nc));
+        isVisited[nr][nc] = true;
+      }
+    }
+
+    return true;
+  }
+
+  static class Location {
+
+    int r;
+    int c;
+
+    Location(int r, int c) {
+      this.r = r;
+      this.c = c;
     }
   }
 }

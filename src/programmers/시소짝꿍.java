@@ -1,57 +1,39 @@
 package programmers;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
 public class 시소짝꿍 {
 
-  public static void main(String[] args) {
-    solution(new int[]{100, 180, 360, 100, 270});
-  }
-
-  static final int[][] ratio = {{1, 1}, {1, 2}, {2, 3}, {3, 4}};
-  public static long solution(int[] weights) {
+  public long solution(int[] weights) {
     long answer = 0;
+    int[] realWeight = new int[1001];
+    int[] compareWeight = new int[4001];
 
-    Arrays.sort(weights);
-    Map<Integer, Integer> map = new HashMap<>();
-    HashSet<Integer> set = new HashSet<>();
+    for(int weight: weights){
+      int realCount = realWeight[weight];
 
-    for (int i = 0 ;i < weights.length; i++) {
-      map.put(weights[i],map.getOrDefault(weights[i], 0) + 1);
-    }
+      int w2 = weight * 2;
+      int w3 = weight * 3;
+      int w4 = weight * 4;
 
-    for (int i = 0; i < weights.length; i++) {
-      int value = weights[i];
+      // 자신과 같은 무게의 사람이 있는 경우
+      if(realCount > 0){
+        answer += realCount;
 
-      for (int j = 0; j < 4; j++) {
-        int a = ratio[j][0];
-        int b = ratio[j][1];
-
-        int key = (value * b) / a;
-
-        if (j == 0) {
-          if (set.contains(key)) {
-            continue;
-          }
-
-          if (map.containsKey(key)) {
-            if (map.get(key) > 1) {
-              answer ++;
-              set.add(value);
-            }
-          }
-        } else {
-          if (map.containsKey(key)) {
-              answer ++;
-          }
-        }
+        answer += compareWeight[w2] - realCount;
+        answer += compareWeight[w3] - realCount;
+        answer += compareWeight[w4] - realCount;
+      } else {
+        answer += compareWeight[w2];
+        answer += compareWeight[w3];
+        answer += compareWeight[w4];
       }
+
+      realWeight[weight]++;
+      compareWeight[w2]++;
+      compareWeight[w3]++;
+      compareWeight[w4]++;
     }
+
     return answer;
   }
-
 
 }
