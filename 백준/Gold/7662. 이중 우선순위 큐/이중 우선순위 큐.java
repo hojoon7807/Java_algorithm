@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,7 +15,6 @@ public class Main {
   개념 및 풀이
   =======================
   최소힙, 최대 힙 사용하게 되면 각 위치를 찾아서 삭제하는 경우 때문에 시간 초과 예상
-  deque 정렬 작업 추가 될 경우 nlogn 추가로 시간초과
   TreeMap 사용하면 레드블랙트리로 first last 받을 수 있음
    */
   public static void main(String[] args) throws IOException {
@@ -42,6 +42,9 @@ public class Main {
           map.put(value, map.getOrDefault(value, 0) + 1);
           break;
         case "D":
+          if (map.isEmpty()) {
+            continue;
+          }
           // 최댓값 제거
           if (value == 1) {
             deleteMax();
@@ -62,28 +65,22 @@ public class Main {
   }
 
   static void deleteMax() {
-    if (map.isEmpty()) {
-      return;
-    }
     Integer maxKey = map.lastKey();
 
     if (map.get(maxKey) == 1) {
       map.remove(maxKey);
     } else {
-      map.replace(maxKey, map.get(maxKey) - 1);
+      map.put(maxKey, map.get(maxKey) - 1);
     }
   }
 
   static void deleteMin() {
-    if (map.isEmpty()) {
-      return;
-    }
     Integer minKey = map.firstKey();
 
     if (map.get(minKey) == 1) {
       map.remove(minKey);
     } else {
-      map.replace(minKey, map.get(minKey) - 1);
+      map.put(minKey, map.get(minKey) - 1);
     }
   }
 
