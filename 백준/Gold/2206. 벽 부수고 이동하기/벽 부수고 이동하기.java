@@ -7,7 +7,7 @@ public class Main {
 
   static int[][] map;
   static int n, m;
-  static boolean[][][] isVisited;
+  static int[][][] count;
   static int[] dr = {1, 0, -1, 0};
   static int[] dc = {0, 1, 0, -1};
   static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,7 +19,7 @@ public class Main {
     m = Integer.parseInt(input[1]);
 
     map = new int[n][m];
-    isVisited = new boolean[n][m][2];
+    count = new int[n][m][2];
 
     for (int i = 0; i < n; i++) {
       String s = br.readLine();
@@ -35,7 +35,7 @@ public class Main {
     LinkedList<int[]> q = new LinkedList<>();
 
     q.add(new int[]{0, 0, 0});
-    isVisited[0][0][0] = true;
+    count[0][0][0] = 1;
 
     while (!q.isEmpty()) {
       int[] cur = q.poll();
@@ -44,7 +44,7 @@ public class Main {
       int isBroken = cur[2];
 
       if (r == n - 1 && c == m - 1) {
-        System.out.println(map[r][c] + 1);
+        System.out.println(count[r][c][isBroken]);
         return;
       }
 
@@ -56,18 +56,16 @@ public class Main {
           continue;
         }
 
-        if (map[nr][nc] == 1) {
-          if (isBroken == 0 && !isVisited[nr][nc][1]) {
-            isVisited[nr][nc][isBroken] = true;
-            map[nr][nc] = map[r][c] + 1;
-            q.add(new int[]{nr, nc, 1});
-          }
-        } else {
-          if (!isVisited[nr][nc][isBroken]) {
-            isVisited[nr][nc][isBroken] = true;
-            map[nr][nc] = map[r][c] + 1;
-            q.add(new int[]{nr, nc, isBroken});
-          }
+        if (count[nr][nc][isBroken] != 0) {
+          continue;
+        }
+
+        if (map[nr][nc] == 0) {
+          count[nr][nc][isBroken] = count[r][c][isBroken] + 1;
+          q.add(new int[]{nr, nc, isBroken});
+        } else if (isBroken == 0 && map[nr][nc] == 1) {
+          count[nr][nc][1] = count[r][c][isBroken] + 1;
+          q.add(new int[]{nr, nc, 1});
         }
       }
     }
