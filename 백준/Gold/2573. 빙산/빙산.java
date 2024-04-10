@@ -86,17 +86,17 @@ public class Main {
       for (int j = 0; j < m; j++) {
         if (melt[i][j] != 0) {
           int meltCount = melt[i][j];
-
           if (map[i][j] < meltCount) {
             map[i][j] = 0;
           } else {
             map[i][j] -= meltCount;
           }
         }
+        
+        melt[i][j] = 0;
+        isVisited[i][j] = false;
       }
     }
-
-    melt = new int[n][m];
   }
 
 
