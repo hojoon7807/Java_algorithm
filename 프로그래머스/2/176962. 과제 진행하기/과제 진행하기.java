@@ -9,7 +9,6 @@ class Solution {
         
         ArrayList<String> complete = new ArrayList<>();
         
-        
         for(int i=0; i<plans.length; i++){
             String[] plan = plans[i];
             String name = plan[0];
