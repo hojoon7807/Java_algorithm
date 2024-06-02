@@ -3,7 +3,9 @@ import java.util.*;
 class Solution {
     public int solution(int[][] scores) {
         // 임의의 사원보다 두 점수가 모두 낮으면 인센을 못 받음
-//{4,3}, {5,2}, {5,1}, {4,5}, {4,4}
+        //[4,3], [5,2], [5,1], [4,5], [4,4]
+        //w = 4,3
+        //[5,2] [5,1] [4,5] [4,4] [4,3]
         int[] wanho = scores[0];
         
         Arrays.sort(scores, (o1,o2) -> {
