@@ -4,7 +4,7 @@ import java.util.Map.Entry;
 class Solution {
 
     HashMap<Integer, Long> map = new HashMap<>();
-    PriorityQueue<Tangerine> pq = new PriorityQueue<>((o1, o2) -> o2.count.compareTo(o1.count));
+    PriorityQueue<Long> pq = new PriorityQueue<>(Comparator.reverseOrder());
     
     public int solution(int k, int[] tangerine) {
         int answer = 0;
@@ -14,24 +14,15 @@ class Solution {
         }
         
         for(Entry<Integer, Long> entry: map.entrySet()){
-            pq.add(new Tangerine(entry.getKey(), entry.getValue()));
+            pq.add(entry.getValue());
         }
         
         while(k > 0) {
-            Tangerine t = pq.poll();
+            Long count = pq.poll();
             answer++;
-            k -= t.count;
+            k -= count;
         }
         return answer;
     }
     
-    static class Tangerine {
-        int num;
-        Long count;
-        
-        public Tangerine(int num, Long count){
-            this.num = num;
-            this.count = count;
-        }
-    }
 }
