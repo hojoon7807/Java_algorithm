@@ -6,7 +6,7 @@ public class Main {
     static int[] dr = {1,0,-1,0,-1,-1,1,1,0};
     static int[] dc = {0,1,0,-1,-1,1,-1,1,0};
     static char[][] map = new char[8][8];
-    static boolean[][][] hasWall = new boolean[8][8][9];
+    static boolean[][][] hasWall = new boolean[8][8][8];
     
     public static void main(String[] args) throws IOException {
         for(int i=0; i<8; i++){
@@ -38,7 +38,7 @@ public class Main {
                 return;
             }
             
-            if(cur[2] == 8){
+            if(cur[2] == 7){
                 System.out.println(1);
                 return;
             }
