@@ -58,6 +58,8 @@ public class Main {
     }
 
     for (Integer next : infos[recent].path) {
+      int newMoney = money;
+
       if(isVisited[next]){
         continue;
       }
@@ -70,19 +72,19 @@ public class Main {
 
       if(type.equals("L")){
           if(money < room.cost){
-            money = room.cost;
+            newMoney = room.cost;
           }
       } else if(type.equals("T")){
         if (money < room.cost) {
           flag = false;
         } else {
-          money -= room.cost;
+          newMoney -= room.cost;
         }
       }
 
       if (flag) {
         isVisited[next] = true;
-        dfs(next, money);
+        dfs(next, newMoney);
         isVisited[next] = false;
       }
     }
